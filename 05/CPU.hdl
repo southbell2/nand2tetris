@@ -39,5 +39,38 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    //A-명령어
+    //instruction의 최상위 비트가 0이면 A 명령어이다
+    //ALU의 출력값과 instruction중 적절한 것을 선택한 뒤, 조건을 만족할때 A 레지스터에 입력한다
+    Mux16(sel=instruction[15], a=instruction, b=outALU, out=muxA);
+    Not(in=instruction[15], out=notins15);
+    Or(a=notins15, b=instruction[5], out=loadA);
+    ARegister(in=muxA, load=loadA, out=outA, out[0..14]=addressM);
+    
+    //C-명령어
+    //ALU의 입력값으로 A,M중 하나를 선택한다
+    Mux16(sel=instruction[12], b=inM, a=outA, out=outAM);
+    //D 레지스터
+    And(a=instruction[4], b=instruction[15], out=ins4);
+    DRegister(in=outALU, load=ins4, out=outD);
+    //ALU
+    ALU(x=outD, y=outAM, zx=instruction[11], nx=instruction[10], zy=instruction[9],
+    ny=instruction[8], f=instruction[7], no=instruction[6], out=outALU, out=outM, 
+    zr=checkzr, ng=checkng);
+    //M에 입력할지 말지
+    And(a=instruction[3], b=instruction[15], out=ins3);
+    Or(a=false, b=ins3, out=writeM);
+    
+    //PC
+    //ALU의 출력값이 양수인지 체크
+    Or(a=checkzr, b=checkng, out=notcheckps);
+    Not(in=notcheckps, out=checkps);
+    //조건을 만족하면 점프한다
+    And(a=checkng, b=instruction[2], out=jumpng);
+    And(a=checkzr, b=instruction[1], out=jumpzr);
+    And(a=checkps, b=instruction[0], out=jumpps);
+    Or(a=jumpng, b=jumpzr, out=jumpor);
+    Or(a=jumpor, b=jumpps, out=jump);
+    And(a=jump, b=instruction[15], out=jumpout);
+    PC(in=outA, inc=true, reset=reset, load=jumpout, out[0..14]=pc);
 }
