@@ -96,21 +96,9 @@ public class Main {
 		sb.setLength(0);
 	}
 
-	public static void main(String[] args) {		
-		// Add.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/add/Add.asm");
-		// MaxL.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/max/MaxL.asm");
-		// RectL.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/rect/RectL.asm");
-		// PongL.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/pong/PongL.asm");
-		// Max.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/max/Max.asm");	
-		// Rect.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/rect/Rect.asm");
-		// Pong.asm 파일 번역
-		assembler("/home/southbell2/nand2tetris/projects/06/pong/Pong.asm");
+	public static void main(String[] args) {	
+		String name = args[1];
+		assembler(name);
 	}
 }
 
