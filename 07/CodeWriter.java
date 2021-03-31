@@ -106,7 +106,7 @@ public class CodeWriter {
 			commands.append("@SP").append('\n');
 			commands.append("A=M-1").append('\n');
 			commands.append("M=0").append('\n');
-			commands.append("(EQ").append(Integer.toString(conditionCnt)).append(')').append('\n');
+			commands.append("(GT").append(Integer.toString(conditionCnt)).append(')').append('\n');
 			
 			conditionCnt++;
 			
@@ -130,7 +130,7 @@ public class CodeWriter {
 			commands.append("@SP").append('\n');
 			commands.append("A=M-1").append('\n');
 			commands.append("M=0").append('\n');
-			commands.append("(EQ").append(Integer.toString(conditionCnt)).append(')').append('\n');
+			commands.append("(LT").append(Integer.toString(conditionCnt)).append(')').append('\n');
 			
 			conditionCnt++;
 			
